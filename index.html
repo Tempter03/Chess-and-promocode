@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тёплые крестики-нолики</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div class="background"></div>
+  <main class="app">
+    <header class="hero">
+      <div class="brand">
+        <div class="icon">✿</div>
+        <div>
+          <div class="title">Крестики-нолики</div>
+          <div class="subtitle">Небольшая пауза с заботой о вас</div>
+        </div>
+      </div>
+      <div class="pill">Для девушек 25–40</div>
+    </header>
+
+    <section class="card">
+      <div class="status-bar">
+        <div id="status" class="status-text">Ваш ход: крестики</div>
+        <button id="restart" class="ghost-btn">Начать заново</button>
+      </div>
+
+      <div id="board" class="board" aria-label="Игровое поле"></div>
+
+      <div class="helper">
+        <div class="helper-title">Совет дня</div>
+        <p class="helper-text">Дышите глубже и получайте удовольствие от процесса. Победа — приятный бонус.</p>
+      </div>
+    </section>
+
+    <section id="promoCard" class="promo hidden" aria-live="polite">
+      <div class="promo-header">
+        <div>
+          <div class="promo-kicker">Ура, победа!</div>
+          <div class="promo-title">Ваш промокод готов</div>
+        </div>
+        <div class="confetti">✧</div>
+      </div>
+      <div class="promo-code" id="promoCode">00000</div>
+      <div class="promo-actions">
+        <button id="copyPromo" class="primary-btn">Скопировать код</button>
+        <button id="playAgain" class="ghost-btn">Играть ещё</button>
+      </div>
+    </section>
+
+    <section id="replayCta" class="cta hidden">
+      <div>
+        <div class="cta-title">В этот раз компьютер был сильнее</div>
+        <p class="cta-text">Попробуйте ещё — удача любит настойчивых.</p>
+      </div>
+      <button id="replayBtn" class="primary-btn">Попробовать снова</button>
+    </section>
+
+    <div id="toast" class="toast hidden" role="status"></div>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
+
