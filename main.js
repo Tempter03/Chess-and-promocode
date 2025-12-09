@@ -133,47 +133,31 @@ function isDraw() {
   return state.board.every(Boolean);
 }
 
-function minimax(board, isMaximizing) {
-  const winner = getWinner(board);
-  if (winner === 'O') return 10;
-  if (winner === 'X') return -10;
-  if (board.every(Boolean)) return 0;
-
-  if (isMaximizing) {
-    let best = -Infinity;
-    for (let i = 0; i < 9; i += 1) {
-      if (board[i]) continue;
-      board[i] = 'O';
-      best = Math.max(best, minimax(board, false));
-      board[i] = null;
-    }
-    return best - 1; // поощряем быстрые победы
-  }
-
-  let best = Infinity;
-  for (let i = 0; i < 9; i += 1) {
-    if (board[i]) continue;
-    board[i] = 'X';
-    best = Math.min(best, minimax(board, true));
-    board[i] = null;
-  }
-  return best + 1; // задерживаем поражения
-}
-
 function findBestMove(board) {
-  let bestScore = -Infinity;
-  let move = -1;
-  for (let i = 0; i < 9; i += 1) {
-    if (board[i]) continue;
-    board[i] = 'O';
-    const score = minimax(board, false);
-    board[i] = null;
-    if (score > bestScore) {
-      bestScore = score;
-      move = i;
-    }
+  // 1) Попытка выиграть в один ход
+  for (const [a, b, c] of winningLines) {
+    const line = [board[a], board[b], board[c]];
+    const marksO = line.filter((m) => m === 'O').length;
+    const emptyIndex = [a, b, c].find((i) => !board[i]);
+    if (marksO === 2 && emptyIndex !== undefined) return emptyIndex;
   }
-  return move;
+
+  // 2) Блокировать выигрыш игрока
+  for (const [a, b, c] of winningLines) {
+    const line = [board[a], board[b], board[c]];
+    const marksX = line.filter((m) => m === 'X').length;
+    const emptyIndex = [a, b, c].find((i) => !board[i]);
+    if (marksX === 2 && emptyIndex !== undefined) return emptyIndex;
+  }
+
+  // 3) Центр, если свободен
+  if (!board[4]) return 4;
+
+  // 4) Лёгкая сложность: случайная из оставшихся
+  const free = board.map((v, i) => (v ? null : i)).filter((v) => v !== null);
+  if (free.length === 0) return -1;
+  const randomIndex = Math.floor(Math.random() * free.length);
+  return free[randomIndex];
 }
 
 function finishGame(winner) {
